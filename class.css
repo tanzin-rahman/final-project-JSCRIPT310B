@@ -1,0 +1,14 @@
+#description-container {
+    background-color: skyblue;
+    color: black;
+    position: relative;
+    
+  }
+  
+.book-title {
+  font-size: small;
+}
+
+  .favorite {
+    background-color: #1a800045;
+  }

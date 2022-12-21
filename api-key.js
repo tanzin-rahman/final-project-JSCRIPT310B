@@ -1,0 +1,1 @@
+const API_KEY = `GlddTXRM6F5TlrCalMB8mTHUQYciQEyF`
