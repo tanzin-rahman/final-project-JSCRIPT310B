@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', ready)
 //===============================================================
 
 // add book image for each added book at div
-const addBookImage = function(book, newDiv){
+const addBookImage = function (book, newDiv) {
   //create a new image 
   const img = document.createElement('img');
   const imageUrl = `${book.book_image}`;
@@ -14,16 +14,16 @@ const addBookImage = function(book, newDiv){
 }
 
 // add book title for each added book at div
-const addBookTitle = function(book, newDiv){
+const addBookTitle = function (book, newDiv) {
   const bookTitle = document.createElement('span')
   bookTitle.innerText = book.title;
   bookTitle.classList.add('book-title');
   newDiv.appendChild(bookTitle);
-}  
+}
 
 // store the book information at local storage
-function store(key, book){ //stores items in the localStorage
-  window.localStorage.setItem(key,JSON.stringify(book));
+function store(key, book) { //stores items in the localStorage
+  window.localStorage.setItem(key, JSON.stringify(book));
 
   // Show the stored information in a new window by retrieving the info
   let records = window.localStorage.getItem(key);
@@ -31,44 +31,44 @@ function store(key, book){ //stores items in the localStorage
     newWindow = window.open('store.html', 'Local Storage', records);
     let paragraph = newWindow.document.createElement("p")
     let infoText = newWindow.document.createTextNode(records);
-    paragraph.appendChild(infoText); 
+    paragraph.appendChild(infoText);
   };
 }
 
 // mark the book information as favorite at local storage
-function isFav(key){ 
+function isFav(key) {
   let records = window.localStorage.getItem(key);
-  if (records != null )
+  if (records != null)
     return true;
   else
     return false;
 }
 
-function removeItem(key){  //deletes item from localStorage
+function removeItem(key) {  //deletes item from localStorage
   localStorage.removeItem(key)
   let records = window.localStorage.getItem(key);
-    // Show the stored information in a new window by retrieving the info
+  // Show the stored information in a new window by retrieving the info
   const openNewWindow = (records) => {
     newWindow = window.open('store.html', 'Local Storage', records);
     let paragraph = newWindow.document.createElement("p")
     let infoText = newWindow.document.createTextNode(records);
-    paragraph.appendChild(infoText); 
+    paragraph.appendChild(infoText);
   };
-}  
+}
 
-function showStorage(){ 
+function showStorage() {
   let paragraph = document.createElement("p")
-  for (let i = 0; i < localStorage.length; i++){
+  for (let i = 0; i < localStorage.length; i++) {
     let records = window.localStorage.getItem(localStorage.key(i));
     let infoText = document.createTextNode(records);
-    paragraph.appendChild(infoText); 
+    paragraph.appendChild(infoText);
   }
 }
 
 //clears the entire localStorage
-function clearStorage(){
-localStorage.clear()
-console.log("clear records");
+function clearStorage() {
+  localStorage.clear()
+  console.log("clear records");
 }
 
 class FavoriteBook {
@@ -80,14 +80,28 @@ class FavoriteBook {
   }
 }
 
-function ready() {
-  
-  const formEl = document.getElementById('best-books-form');
+function display_ct5() {
+  let x = new Date()
+  let ampm = x.getHours() >= 12 ? ' PM' : ' AM';
 
+  let x1 = x.getMonth() + 1 + "/" + x.getDate() + "/" + x.getFullYear();
+  x1 = x1 + " - " + x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds() + ":" + ampm;
+  document.getElementById('ct5').innerHTML = x1;
+  display_c5();
+}
+function display_c5() {
+  var refresh = 1000; // Refresh rate in milli seconds
+  mytime = setTimeout('display_ct5()', refresh)
+}
+
+function ready() {
+
+  const formEl = document.getElementById('best-books-form');
+  display_c5()
 
   const getTheUserDate = formEl.addEventListener('submit', function (e) {
-    e.preventDefault(); 
-   
+    e.preventDefault();
+
     const dateEl = document.getElementById("date")
     let dateEntered = new Date();
     let input = dateEl.value;
@@ -133,13 +147,13 @@ function ready() {
         }
       });
   });
-  
+
   const retrieveAllFavButton = document.getElementById("retrieveAllFavButton")
-  retrieveAllFavButton.addEventListener ("click", function() {
-     showStorage();    
+  retrieveAllFavButton.addEventListener("click", function () {
+    showStorage();
   })
   const clearButton = document.getElementById("clearButton")
-  clearButton.addEventListener ("click", function() {
+  clearButton.addEventListener("click", function () {
     clearStorage();
   })
 }
@@ -163,34 +177,34 @@ function createRowDiv() {
 function createBookDiv(book) {
   const newDiv = document.createElement("div");
   newDiv.classList.add('col-md-3')
-  if(isFav(book.primary_isbn13)) {
+  if (isFav(book.primary_isbn13)) {
     newDiv.classList.add('favorite')
   }
-  
+
   // add book image to individual div
   addBookImage(book, newDiv);
 
   addBookTitle(book, newDiv);
   newDiv.appendChild(document.createElement('br'))
   // creating button element to store favorites
-  let storeButton = document.createElement('BUTTON');              
+  let storeButton = document.createElement('BUTTON');
   let stext = document.createTextNode("Add");
   storeButton.appendChild(stext);
-  newDiv.appendChild(storeButton); ;
-  storeButton.addEventListener ("click", function(e) {
-    const favBook = new FavoriteBook(book); 
+  newDiv.appendChild(storeButton);;
+  storeButton.addEventListener("click", function (e) {
+    const favBook = new FavoriteBook(book);
     let key = book.primary_isbn13;
     store(key, favBook)
     console.log(favBook);
     e.target.parentElement.classList.add('favorite')
   });
-  
+
   // creating button element to remove favorites
-  let removeButton = document.createElement('BUTTON');              
+  let removeButton = document.createElement('BUTTON');
   let rtext = document.createTextNode("Remove");
   removeButton.appendChild(rtext);
-  newDiv.appendChild(removeButton); ;
-  removeButton.addEventListener ("click", function(e) {
+  newDiv.appendChild(removeButton);;
+  removeButton.addEventListener("click", function (e) {
     let key = book.primary_isbn13;
     removeItem(key);
     e.target.parentElement.classList.remove('favorite')
@@ -200,16 +214,16 @@ function createBookDiv(book) {
   const descriptionDiv = document.getElementById('description-container');
   newDiv.addEventListener('mouseover', function handleMouseOver() {
     descriptionDiv.innerHTML = `<b>Book Title:</b> ${book.title} <br><b>Author:</b> ${book.author} <br><b>Description:</b> ${book.description}`
-    
+
     // 👇️ if you used visibility property to hide div
-  descriptionDiv.style.visibility = 'visible';
+    descriptionDiv.style.visibility = 'visible';
   });
 
   // //  (optionally) Hide DIV on mouse out
   newDiv.addEventListener('mouseout', function handleMouseOut() {
     descriptionDiv.innerHTML = "";
     // 👇️ if you used visibility property to hide div
-  descriptionDiv.style.visibility = 'hidden';
+    descriptionDiv.style.visibility = 'hidden';
   });
 
   return newDiv;
